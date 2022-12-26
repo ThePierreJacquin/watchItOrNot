@@ -28,6 +28,7 @@ def alternatives(games,game):
 if team is not None:
     game = playedOrNot(games,team)
     if not(game):
+        st.write(game["homeTeam"]["teamTricode"]," VS ",game["awayTeam"]["teamTricode"])
         st.write("Your team didn't play yesterday :(")
     else:
         if watchOrNot(game,team):
