@@ -7,7 +7,7 @@ games = getGames()
 
 def playedOrNot(games:dict,team:str):
     for game in games:
-        if game["homeTeam"]["teamTricode"] == team or game["awatTeam"]["teamTricode"] == team :
+        if game["homeTeam"]["teamTricode"] == team or game["awayTeam"]["teamTricode"] == team :
                 return game
     return False
 
@@ -19,7 +19,7 @@ def watchOrNot(game:dict,team:str):
             return False
     return False
     
-def top3(gales:dict):
+def top3(games:dict):
     return "Hey"
 
 

@@ -1,6 +1,4 @@
 import streamlit as st
-from nba_api.stats.endpoints import leaguegamefinder
-from nba_api.stats.static import teams
 import os 
 import sys
 sys.path.insert(0, os.path.join(os.getcwd(),'src'))
@@ -29,7 +27,7 @@ def alternatives(games,game):
     
 if team is not None:
     game = playedOrNot(games,team)
-    if not(playedOrNot(games)):
+    if not(game):
         st.write("Your team didn't play yesterday :(")
     else:
         if watchOrNot(game):
