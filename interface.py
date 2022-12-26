@@ -30,7 +30,7 @@ if team is not None:
     if not(game):
         st.write("Your team didn't play yesterday :(")
     else:
-        if watchOrNot(game):
+        if watchOrNot(game,team):
             watchIt(game)
         else:
             st.write("Don't waste your time, your team lost")
