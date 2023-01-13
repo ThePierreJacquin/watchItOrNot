@@ -1,26 +1,14 @@
 import os 
 import sys
 sys.path.insert(0, os.path.join(os.getcwd(),'src'))
+from apiUtils import getLastGame
 
-from apiUtils import getGames
-games = getGames()
 
-def playedOrNot(games:dict,team:str):
-    for game in games:
-        if game["homeTeam"]["teamTricode"] == team or game["awayTeam"]["teamTricode"] == team :
-                return game
+def watchOrNot(team:str):
+    game = getLastGame(team)
+    scoreF = game[team]
+    scoreA = game[(game.keys()-{team}).pop()] 
+    if scoreA-10 < scoreF: ####faire le traitement dès le début
+        return True
     return False
-
-def watchOrNot(game:dict,team:str):
-    if game["homeTeam"]["teamTricode"] == team:
-        if game["homeTeam"]["score"] - game["awayTeam"]["score"] > -5:
-            return True
-        else:
-            return False
-    return False
-    
-def top3(games:dict):
-    return "Hey"
-
-
 

@@ -1,40 +1,34 @@
 import streamlit as st
-import os 
-import sys
+import os,sys
+# import cairosvg
 sys.path.insert(0, os.path.join(os.getcwd(),'src'))
-
-from apiUtils import getGames
 from watchOrNot import watchOrNot
-from watchOrNot import playedOrNot
-from watchOrNot import top3
-games = getGames()
+from apiUtils import getLastGame
+from time import time
 
-st.sidebar.title("Choose Team")
 st.title("Should you watch yesterday Match ?")
+above = st.container()
+above.empty()
+col1,col2,col3 = st.columns([1,1,1])
+below = st.container()
+below.empty()
 
 def watchIt(game):
-    st.write("Watch It !")
-    st.write(" ->link<- ")
+    below.write("Watch It !")
+    below.write(" ->link<- ")
 
-
-team = st.text_input(label = "enter your team tricode",max_chars=3)
-
-
-def alternatives(games,game):
-    st.write("Don't waste your time, your team lost")
-    st.write("You could watch :")
-    alternatives = top3(games)   
+def main():
+    game = getLastGame(st.session_state.team)
+    teams = list(game.keys())
+    # col1.image(cairosvg.svg2png(url='images/'+teams[0]+'.svg', output_width=426, output_height=240))
+    # col2.write(cairosvg.svg2png(url='images/VS.svg', output_width=426, output_height=240))
+    # col3.image(cairosvg.svg2png(url='images/'+teams[1]+'.svg', output_width=426, output_height=240))
     
-if team is not None:
-    game = playedOrNot(games,team)
-    if not(game):
-        st.write("Your team didn't play yesterday :(")
+    if watchOrNot(st.session_state.team):
+        watchIt(game)
     else:
-        st.write(game["homeTeam"]["teamTricode"]," VS ",game["awayTeam"]["teamTricode"])
-        if watchOrNot(game,team):
-            watchIt(game)
-        else:
-            st.write("Don't waste your time, your team lost")
-            st.write("You could watch :")
-            alternatives = top3(games)
-
+        below.write("Don't waste your time, your team lost", unsafe_allow_html=True)
+    
+teamTricodes = ["---","ATL","BKN","BOS","CHA","CHI","CLE","DAL","DEN","DET","GSW","HOU","IND","LAC","LAL","MEM","MIA","MIL","MIN","NOP","NYK","OKC","ORL","PHI","PHX","POR","SAC","SAS","TOR","UTA","WAS"]
+above.selectbox("Select your team abbreviation",teamTricodes,key="team",on_change=main)
+    
