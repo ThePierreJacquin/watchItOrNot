@@ -23,5 +23,6 @@ def getLogo(team:str):
 
 def getLink(boxscore:dict):
     terms = list(boxscore.keys())
-    link = "https://www.nba.com/game/" + terms[0].lower() + "-vs-" + terms[1].lower()  + "-" + terms[2] +"?watchFullGame"
-    return link
+    link = "[NBA Website](https://www.nba.com/game/" + terms[0].lower() + "-vs-" + terms[1].lower()  + "-" + terms[2] +"?watchFullGame)"
+    mobileLink = "[NBA App](https://nba.app.link/?$deeplink_path=gametime%3A%2F%2Fgame%2F"+terms[2]+")"
+    return link,mobileLink

@@ -1,13 +1,11 @@
 import streamlit as st
-import os,sys
-import streamlit as st
 import base64
-sys.path.insert(0, os.path.join(os.getcwd(),'src'))
 from watchOrNot import watchOrNot
 from apiUtils import getLastGame,getLink
 
 if "seuil" not in st.session_state:
     st.session_state.seuil = 10
+    
 st.title("Should I watch yesterday's match ?")
 above = st.container()
 above.empty()
@@ -22,6 +20,19 @@ p {
     font-weight: bold;
     text-align: center;
 }
+[data-testid="column"] {
+        width: calc(33.3333% - 1rem) !important;
+        flex: 1 1 calc(33.3333% - 1rem) !important;
+        min-width: calc(33% - 1rem) !important;
+[data-tes]
+}
+div.stButton { 
+    text-align: center; 
+}
+[data-testid="stMarkdownContainer"] {
+    text-align: center;
+    font-weight: normal;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -33,7 +44,10 @@ def render_svg(svg):
 
 def watchIt(game):
     below.write("Watch It !")
-    below.write(getLink(game))
+    link,mobileLink = getLink(game)
+    below.markdown(link, unsafe_allow_html=True)
+    below.markdown(mobileLink, unsafe_allow_html=True)
+    
 
 def main():
     if st.session_state.team != "---":
@@ -50,6 +64,7 @@ def main():
             watchIt(game)
         else:
             below.write("Don't waste your time, your team lost")
+
 with above:
     btMns,text,btPs = st.columns([1,10,1])
     
@@ -61,4 +76,7 @@ with above:
     
     teamTricodes = ["---","ATL","BKN","BOS","CHA","CHI","CLE","DAL","DEN","DET","GSW","HOU","IND","LAC","LAL","MEM","MIA","MIL","MIN","NOP","NYK","OKC","ORL","PHI","PHX","POR","SAC","SAS","TOR","UTA","WAS"]
     above.selectbox("Select your team abbreviation",teamTricodes,key="team",on_change=main,label_visibility="collapsed")
+    if st.session_state.team == "---":
+        st.warning("Remember to toggle 'Hide Score' on your NBA League Pass !")
+
     
