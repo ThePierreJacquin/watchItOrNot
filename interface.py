@@ -2,6 +2,9 @@ import streamlit as st
 import base64
 from watchOrNot import watchOrNot
 from apiUtils import getLastGame,getLink
+import os,sys
+import streamlit as st
+sys.path.insert(0, os.path.join(os.getcwd(),'src'))
 
 if "seuil" not in st.session_state:
     st.session_state.seuil = 10
@@ -66,17 +69,19 @@ def main():
             below.write("Don't waste your time, your team lost")
 
 with above:
-    btMns,text,btPs = st.columns([1,10,1])
-    
-    if btMns.button(":heavy_minus_sign:"):
-        st.session_state.seuil -=1
-    if btPs.button(":heavy_plus_sign:"):
-        st.session_state.seuil +=1
-    text.write("'I don't want to watch if my team lost by more than " + str(st.session_state.seuil) + " points'")
-    
+
+
+
+    st.warning("Remember to toggle 'Hide Score' on your NBA League Pass !")
     teamTricodes = ["---","ATL","BKN","BOS","CHA","CHI","CLE","DAL","DEN","DET","GSW","HOU","IND","LAC","LAL","MEM","MIA","MIL","MIN","NOP","NYK","OKC","ORL","PHI","PHX","POR","SAC","SAS","TOR","UTA","WAS"]
-    above.selectbox("Select your team abbreviation",teamTricodes,key="team",on_change=main,label_visibility="collapsed")
+    st.selectbox("Select your team abbreviation",teamTricodes,key="team",on_change=main,label_visibility="collapsed")
     if st.session_state.team == "---":
-        st.warning("Remember to toggle 'Hide Score' on your NBA League Pass !")
+        
+        if col1.button(":heavy_minus_sign:"):
+            st.session_state.seuil -=1
+        if col3.button(":heavy_plus_sign:"):
+            st.session_state.seuil +=1    
+        st.write("'I don't want to watch if my team lost by more than " + str(st.session_state.seuil) + " points'")   
+        
 
     
