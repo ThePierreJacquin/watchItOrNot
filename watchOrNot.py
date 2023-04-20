@@ -1,10 +1,9 @@
 import os 
 import sys
 sys.path.insert(0, os.path.join(os.getcwd(),'src'))
-from apiUtils import getLastGame
 
-
-def watchOrNot(boxscore:dict,team:str,seuil):
+#Compute if the game should be wwatched
+def watchOrNot(boxscore:dict,team:str,threshold):
     teams = list(boxscore.keys())
     if team == teams[0]:
         scoreF = boxscore[teams[0]]
@@ -12,7 +11,7 @@ def watchOrNot(boxscore:dict,team:str,seuil):
     else:
         scoreA = boxscore[teams[0]]
         scoreF = boxscore[teams[1]] 
-    if scoreA-seuil < scoreF: 
+    if scoreA-threshold < scoreF: 
         return True
     return False
 

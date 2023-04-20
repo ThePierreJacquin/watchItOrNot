@@ -1,7 +1,8 @@
 from nba_api.stats.endpoints import TeamGameLog,boxscoresummaryv2
 from nba_api.stats.static import teams
 
-def getLastGame(team:str):
+#Get last game from a team through the NBA website
+def getLastGame(team:str)->dict:
     team_id = teams.find_team_by_abbreviation(team)["id"]
 
     game_id = TeamGameLog(team_id).get_dict()["resultSets"][0]["rowSet"][0][1]
@@ -14,14 +15,15 @@ def getLastGame(team:str):
 
 
 
-# create the url parts that do not change
-def getLogo(team:str):
+#Function I used to scrap the logo from the nba website
+def getLogo(team:str)->str:
     team_id = str(teams.find_team_by_abbreviation(team)["id"])
     base_url = 'https://cdn.nba.com/logos/nba/'
     url_end = '/global/L/logo.svg'
     return base_url  + team_id + url_end
 
-def getLink(boxscore:dict):
+#Get the official link of a game
+def getLink(boxscore:dict)->tuple(str,str):
     terms = list(boxscore.keys())
     link = "[NBA Website](https://www.nba.com/game/" + terms[0].lower() + "-vs-" + terms[1].lower()  + "-" + terms[2] +"?watchFullGame)"
     mobileLink = "[NBA App](https://nba.app.link/?$deeplink_path=gametime%3A%2F%2Fgame%2F"+terms[2]+")"
