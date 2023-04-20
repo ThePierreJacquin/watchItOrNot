@@ -23,7 +23,7 @@ def getLogo(team:str)->str:
     return base_url  + team_id + url_end
 
 #Get the official link of a game
-def getLink(boxscore:dict)->tuple(str,str):
+def getLink(boxscore:dict)->tuple[str,str]:
     terms = list(boxscore.keys())
     link = "[NBA Website](https://www.nba.com/game/" + terms[0].lower() + "-vs-" + terms[1].lower()  + "-" + terms[2] +"?watchFullGame)"
     mobileLink = "[NBA App](https://nba.app.link/?$deeplink_path=gametime%3A%2F%2Fgame%2F"+terms[2]+")"
